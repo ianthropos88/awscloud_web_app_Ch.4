@@ -72,36 +72,20 @@ Create a highly scalable Web App with a distributed relational database, where a
 **Project Plan:**
 
 <p align="center">
-  <img align="center" src="images/AWS_Cloud_Project_Plan.png" width=100%>
+  <img align="center" src="image/static/AWS_Cloud_Architecture-Project Plan.png" width=100%>
 </p>
 <p align="center"><b>Scenario 4:</b> The Project Plan - AWS Cloud.</p>
 
 **Architecture Design - 3 Tier Single Region:**
 
 <p align="center">
-  <img align="center" src="images/AWS_Architecture-3-Tier-Single-Region.png" width=100%>
+  <img align="center" src="image/static/AWS_Cloud_Architecture-Single Region.png" width=100%>
 </p>
 <p align="center"><b>Scenario 5:</b> The Architecture Design - 3 Tier Single Region.</p>
 
 **Architecture Design - 3 Tier Multi Region:**
 
 <p align="center">
-  <img align="center" src="images/AWS_Architecture-3-Tier-Multi-Region.png" width=100%>
+  <img align="center" src="image/static/AWS_Cloud_Architecture-Multi Region.png" width=100%>
 </p>
 <p align="center"><b>Scenario 6:</b> The Architecture Design - 3 Tier Multi Region.</p>
-
-##  **Architecture: SAP S/4 Hana Cloud** :cloud: ##
-
-**Project Plan:**
-
-<p align="center">
-  <img align="center" src="images/SAP_Fiori_Project_Plan.png" width=100%>
-</p>
-<p align="center"><b>Scenario 7:</b> The Project Plan - SAP Fiori.</p>
-
-**Architecture Design - SAP Fiori Cloud:**
-
-<p align="center">
-  <img align="center" src="images/SAP_Fiori_Web_Architecture.png" width=100%>
-</p>
-<p align="center"><b>Scenario 8:</b> The Architecture Design - SAP Fiori Web App.</p>
