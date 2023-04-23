@@ -252,7 +252,7 @@ CodePipeline:
                 - Name: SourceCode
 ```
 
-The Amazon S3 source event-based change detection using Cloudwatch Events.
+**The Amazon S3 source event-based change detection using Cloudwatch Events.**
 
 The following CloudFormation resources are required to implement CloudWatch Events, CodePipeline trigger:
 
@@ -366,6 +366,8 @@ AmazonCloudWatchEventRole:
       IsLogging: true
       IsMultiRegionTrail: true
 ```
+When these CloudFormation resources are pieced together, the seond pipeline is triggered when files matching the set object key, are created or updated to the S3 source bucket (this also includes objects created through cross-region replication).
+
 
 ## **Deploy the Application and Database within 3 Environments (Development, Staging, Production)** :pager: ##
 
