@@ -109,6 +109,8 @@ It will take approximately **20 minutes to create your infrastructure** and **le
 
 **Architecture Design - 3 Tier Single Region:**
 
+The following figure provides a look at the classic web application architecture and how it can leverage the AWS Cloud computing infrastructure.
+
 <p align="center">
   <img align="center" src="image/static/AWS_Cloud_Architecture-Single Region.png" width=100%>
 </p>
