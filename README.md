@@ -63,7 +63,7 @@ Create a highly scalable Web App with a distributed relational database, where a
 **Web App Data Flow:**
 
 <p align="center">
-  <img align="center" src="images/Data_Flow.drawio.png" width=100%>
+  <img align="center" src="image/static/Data_Flow.png" width=100%>
 </p>
 <p align="center"><b>Scenario 2:</b> The Web App Data Flow.</p>
 
