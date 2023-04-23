@@ -4,7 +4,7 @@ The purpose of this project was to create a Web Application where all the concer
 
 ## > :rocket: **Thank you for your interest in my work.** :blush:
 
-This solution aims at deploying a web application with a PostgreSQL database on AWS and 3 environments (Development, Staging, & Production).
+This solution aims at deploying a web application with a PostgreSQL database on AWS in 3 environments (Development, Staging, & Production).
 
 The project is supported by several managed services including AWS RDS, PostgreSQL,Amazon ElastiCache, Amazon Elasticsearch Service, Amazon Pinpoint and Amazon Personalize..
 
