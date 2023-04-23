@@ -6,7 +6,7 @@ The purpose of this project was to create a Web Application where all the concer
 
 This solution aims at deploying a web application with a PostgreSQL database on AWS and 3 environments (Development, Staging, & Production).
 
-It leverages rich and diverse priors encapsulated with pretrained **PostgreSQL Queries** ----> **DAX** (e.g., DAX Measures) for **ETL**.
+The project is supported by several managed services including AWS RDS, PostgreSQL,Amazon ElastiCache, Amazon Elasticsearch Service, Amazon Pinpoint and Amazon Personalize..
 
 # Web App Optimization 🚶‍♂️ #
 
