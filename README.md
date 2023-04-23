@@ -223,6 +223,35 @@ This article approaches this problem using CloudWatch events to trigger CodePipe
 
 For CodePipeline resoucrce created with AWS CloudFormation, theConfiguration property in the source stage called PollForSourceChanges should be set to false. If your template doesn't include that property, then PollForSourceChanges is set to true by default.
 
+```json
+CodePipelineTrigger:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+
+CodePipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: !Sub 'codepipeline-${AWS::StackName}'
+      RoleArn: !GetAtt CodePipelineServiceRole.Role.Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Version: '1'
+                Owner: AWS
+                Category: Source
+                Provider: S3
+              Configuration:
+                S3Bucket: !Ref CodePipelineTrigger
+                S3ObjectKey: ! Ref PipelineSourceObjectKey
+                PollForSourceChanges: 'false'
+              OutputArtifacts:
+                - Name: SourceCode
+```
+
 The Amazon S3 source event-based change detection using Cloudwatch Events.
 
 ## **Deploy the Application and Database within 3 Environments (Development, Staging, Production)** :pager: ##
