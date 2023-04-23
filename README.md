@@ -51,21 +51,14 @@ Create a highly scalable Web App with a distributed relational database, where a
 
 - Input collection accuracy and in-time records.
 
-##  **Initiation: Logic Flows** :bookmark_tabs: ##
-
-**Web Process Logic:**
-
-<p align="center">
-  <img align="center" src="images/web_process_logic_flow.png" width=100%>
-</p>
-<p align="center"><b>Scenario 1:</b> The Web Process Logic Flow.</p>
+##  **Initiation: Data Flow** :bookmark_tabs: ##
 
 **Web App Data Flow:**
 
 <p align="center">
   <img align="center" src="image/static/Data_Flow.png" width=100%>
 </p>
-<p align="center"><b>Scenario 2:</b> The Web App Data Flow.</p>
+<p align="center"><b>Scenario 1:</b> The Web App Data Flow.</p>
 
 ##  **Architecture: AWS Cloud** :cloud: ##
 
@@ -74,18 +67,18 @@ Create a highly scalable Web App with a distributed relational database, where a
 <p align="center">
   <img align="center" src="image/static/AWS_Cloud_Architecture-Project Plan.png" width=100%>
 </p>
-<p align="center"><b>Scenario 4:</b> The Project Plan - AWS Cloud.</p>
+<p align="center"><b>Scenario 2:</b> The Project Plan - AWS Cloud.</p>
 
 **Architecture Design - 3 Tier Single Region:**
 
 <p align="center">
   <img align="center" src="image/static/AWS_Cloud_Architecture-Single Region.png" width=100%>
 </p>
-<p align="center"><b>Scenario 5:</b> The Architecture Design - 3 Tier Single Region.</p>
+<p align="center"><b>Scenario 3:</b> The Architecture Design - 3 Tier Single Region.</p>
 
 **Architecture Design - 3 Tier Multi Region:**
 
 <p align="center">
   <img align="center" src="image/static/AWS_Cloud_Architecture-Multi Region.png" width=100%>
 </p>
-<p align="center"><b>Scenario 6:</b> The Architecture Design - 3 Tier Multi Region.</p>
+<p align="center"><b>Scenario 4:</b> The Architecture Design - 3 Tier Multi Region.</p>
