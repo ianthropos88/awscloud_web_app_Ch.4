@@ -1,4 +1,4 @@
-# Improve the availability of Operational and Regulatory Information, which inspires high levels of scalability and performance. 📲 #
+# Improve the availability of Operational and Regulatory Information, which inspires high levels of scalability and performance with AWS Cloud. 📲 #
 
 The purpose of this project was to create a Web Application where all the concerned teams can find the right information related to their Operational and Regulatory Information.
 
