@@ -2,6 +2,12 @@
 
 The purpose of this project was to create a Web Application where all the concerned teams can find the right information related to their Operational and Regulatory Information.
 
+## > :rocket: **Thank you for your interest in my work.** :blush:
+
+This solution aims at deploying a web application with a PostgreSQL database on AWS and 3 environments (Development, Staging, & Production).
+
+It leverages rich and diverse priors encapsulated with pretrained **PostgreSQL Queries** ----> **DAX** (e.g., DAX Measures) for **ETL**.
+
 # Web App Optimization 🚶‍♂️ #
 
 ## ✔️ Problem Statement ##
