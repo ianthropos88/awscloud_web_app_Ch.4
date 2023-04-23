@@ -57,6 +57,38 @@ Create a highly scalable Web App with a distributed relational database, where a
 
 - Input collection accuracy and in-time records.
 
+# Deploy the Application and Database within 3 Environments (Development, Staging, Production)
+
+This example will show how to deploy a containerized app (Strapi) with PostgreSQL on AWS in Development, Staging and Production and makes it accessible via HTTPS. All of that in just a few lines of Terraform file.
+
+## Behind the scene
+
+Behind the scene:
+
+1. Creates 3 Kubernetes clusters (`Dev`, `Staging`, `Production`) on your AWS account (VPC, Security Groups, Subnet, EKS/Kubernetes...)
+2. Creates resources:
+   1. Organization `Terraform Demo`
+   2. Project `Strapi V4`
+   3. Environment `production`
+   4. Database `strapi db` (RDS) for `Production`
+   5. Application `strapi app` for `Production`
+   6. Environment `staging`
+   7. Database `strapi db` (RDS) for `Staging`
+   8. Application `strapi app` for `Staging`
+   9. Environment `dev`
+   10. Database `strapi db` (Container with EBS) for `Dev`
+   11. Application `strapi app` for `Dev`
+   12. Inject all the Secrets and Environment Variables used by the app for every environment
+3. Build `strapi app` application for `Production`, `Staging` and `Dev` environments in parallel
+4. Pushes `strapi app` container image in your ECR registry  for `Production`, `Staging` and `Dev` environments in parallel
+5. Deploys your PostgreSQL database for `Production` (AWS RDS), `Staging` (AWS RDS) and `Dev` (Container) environments in parallel
+6. Deploys `strapi app` on your `Production`, `Staging` and `Dev` EKS clusters
+7. Creates an AWS Network Load Balancer for all your clusters and apps
+8. Generates a TLS certificate for your app for all your apps
+9. Exposes publicly via HTTPS your Strapi app from `Production`, `Staging` and `Dev` through different endpoints
+
+It will take approximately **20 minutes to create your infrastructure** and **less than 10 minutes to deploy your application** for each environment. 
+
 ##  **Initiation: Data Flow** :bookmark_tabs: ##
 
 **Web App Data Flow:**
