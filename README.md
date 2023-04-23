@@ -1,8 +1,8 @@
-# **Deploy the Application and Database within 3 Environments (Development, Staging, Production)** :computer: #
+# **Deploy the Application and Database within 3 Environments (Development, Staging, & Production)** :computer: #
 
 In the DevOps world, we sometimes struggle with terminology.
 
-A stage is a stack that you deploy for a specific purpose.
+Note: A stage is a stack that you deploy for a specific purpose.
 
 Stages are used in code pipelines to provide an on-ramp to push code changes from smaller to wider audiences. For example, a change will typically start with a dev stage (either a team or a personal dev stack). If the change works on the dev stage, a team may next push it to a test stage where internal stakeholders can access it, followed by a staging stage where it's available to a limited number of external customers. Finally, if the change passes all automated and manual tests, it'll be pushed to the production stage.
 
@@ -19,16 +19,16 @@ The project is supported by several managed services including AWS RDS, PostgreS
 This example will show how to deploy a containerized app (Strapi) with PostgreSQL on AWS in Development, Staging and Production and makes it accessible via HTTPS. All of that in just a few lines of Terraform file.
 
 ```tr
-resource "qovery_aws_credentials" "my_aws_creds" {
-  organization_id   = var.qovery_organization_id
+resource "droplets_aws_credentials" "my_aws_creds" {
+  organization_id   = var.droplets_organization_id
   name              = "URL Shortener"
   access_key_id     = var.aws_access_key_id
   secret_access_key = var.aws_secret_access_key
 }
 
-resource "qovery_cluster" "production_cluster" {
-  organization_id   = var.qovery_organization_id
-  credentials_id    = qovery_aws_credentials.my_aws_creds.id
+resource "droplets_cluster" "production_cluster" {
+  organization_id   = var.droplets_organization_id
+  credentials_id    = droplets_aws_credentials.my_aws_creds.id
   name              = "Production cluster"
   description       = "Terraform prod demo cluster"
   cloud_provider    = "AWS"
@@ -39,13 +39,13 @@ resource "qovery_cluster" "production_cluster" {
   state             = "RUNNING"
 
   depends_on = [
-    qovery_aws_credentials.my_aws_creds
+    droplets_aws_credentials.my_aws_creds
   ]
 }
 
-resource "qovery_cluster" "staging_cluster" {
-  organization_id   = var.qovery_organization_id
-  credentials_id    = qovery_aws_credentials.my_aws_creds.id
+resource "droplets_cluster" "staging_cluster" {
+  organization_id   = var.droplets_organization_id
+  credentials_id    = droplets_aws_credentials.my_aws_creds.id
   name              = "Staging cluster"
   description       = "Terraform staging demo cluster"
   cloud_provider    = "AWS"
@@ -56,71 +56,71 @@ resource "qovery_cluster" "staging_cluster" {
   state             = "RUNNING"
 
   depends_on = [
-    qovery_aws_credentials.my_aws_creds
+    droplets_aws_credentials.my_aws_creds
   ]
 }
 
-resource "qovery_cluster" "dev_cluster" {
-  organization_id   = var.qovery_organization_id
-  credentials_id    = qovery_aws_credentials.my_aws_creds.id
+resource "droplets_cluster" "dev_cluster" {
+  organization_id   = var.droplets_organization_id
+  credentials_id    = droplets_aws_credentials.my_aws_creds.id
   name              = "Dev cluster"
   description       = "Terraform dev demo cluster"
   cloud_provider    = "AWS"
-  region            = "us-east-2"
+  region            = "eu-central-1"
   instance_type     = "T3A_MEDIUM"
   min_running_nodes = 3
   max_running_nodes = 4
   state             = "RUNNING"
 
   depends_on = [
-    qovery_aws_credentials.my_aws_creds
+    droplets_aws_credentials.my_aws_creds
   ]
 }
 
 
-resource "qovery_project" "my_project" {
-  organization_id = var.qovery_organization_id
+resource "droplets_project" "my_project" {
+  organization_id = var.droplets_organization_id
   name            = "Multi-env Project"
 
   depends_on = [
-    qovery_cluster.production_cluster
+    droplets_cluster.production_cluster
   ]
 }
 
-resource "qovery_environment" "production" {
-  project_id = qovery_project.my_project.id
+resource "droplets_environment" "production" {
+  project_id = droplets_project.my_project.id
   name       = "production"
   mode       = "PRODUCTION"
-  cluster_id = qovery_cluster.production_cluster.id
+  cluster_id = droplets_cluster.production_cluster.id
 
   depends_on = [
-    qovery_project.my_project
+    droplets_project.my_project
   ]
 }
 
-resource "qovery_database" "production_psql_database" {
-  environment_id = qovery_environment.production.id
+resource "droplets_database" "production_psql_database" {
+  environment_id = droplets_environment.production.id
   name           = "strapi db"
   type           = "POSTGRESQL"
   version        = "13"
-  mode           = "MANAGED" # Use AWS RDS for PostgreSQL (backup and PITR automatically configured by Qovery)
+  mode           = "MANAGED" # Use AWS RDS for PostgreSQL (backup and PITR automatically configured by droplets)
   storage        = 10 # 10GB of storage
   accessibility  = "PRIVATE" # do not make it publicly accessible
   state          = "RUNNING"
 
   depends_on = [
-    qovery_environment.production,
+    droplets_environment.production,
   ]
 }
 
-resource "qovery_application" "production_strapi_app" {
-  environment_id = qovery_environment.production.id
+resource "droplets_application" "production_strapi_app" {
+  environment_id = droplets_environment.production.id
   name           = "strapi app"
   cpu            = 1000
   memory         = 512
   state          = "RUNNING"
   git_repository = {
-    url       = "https://github.com/evoxmusic/strapi-v4.git"
+    url       = "https://github.com/ianthropos88/awscloud_web_app_Ch.4"
     branch    = "main"
     root_path = "/"
   }
@@ -147,15 +147,15 @@ resource "qovery_application" "production_strapi_app" {
     },
     {
       key   = "DATABASE_HOST"
-      value = qovery_database.production_psql_database.internal_host
+      value = droplets_database.production_psql_database.internal_host
     },
     {
       key   = "DATABASE_PORT"
-      value = qovery_database.production_psql_database.port
+      value = droplets_database.production_psql_database.port
     },
     {
       key   = "DATABASE_USERNAME"
-      value = qovery_database.production_psql_database.login
+      value = droplets_database.production_psql_database.login
     },
     {
       key   = "DATABASE_NAME"
@@ -177,18 +177,18 @@ resource "qovery_application" "production_strapi_app" {
     },
     {
       key   = "DATABASE_PASSWORD"
-      value = qovery_database.production_psql_database.password
+      value = droplets_database.production_psql_database.password
     }
   ]
 
   depends_on = [
-    qovery_environment.production,
-    qovery_database.production_psql_database,
+    droplets_environment.production,
+    droplets_database.production_psql_database,
   ]
 }
 ```
 
-Behind the scene:
+**Behind the Scene:**
 
 1. Creates 3 Kubernetes clusters (`Dev`, `Staging`, `Production`) on your AWS account (VPC, Security Groups, Subnet, EKS/Kubernetes...)
 2. Creates resources:
