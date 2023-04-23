@@ -223,7 +223,7 @@ This article approaches this problem using CloudWatch events to trigger CodePipe
 
 For CodePipeline resoucrce created with AWS CloudFormation, theConfiguration property in the source stage called PollForSourceChanges should be set to false. If your template doesn't include that property, then PollForSourceChanges is set to true by default.
 
-```json
+```yaml
 CodePipelineTrigger:
     Type: 'AWS::S3::Bucket'
     Properties:
@@ -258,7 +258,7 @@ The following CloudFormation resources are required to implement CloudWatch Even
 
 1. CloudWatch IAM role (with CodePipeline StartPipelineExecution policy attached)
 
-```json
+```yaml
 AmazonCloudWatchEventRole:
     Type: AWS::IAM::Role
     Properties:
@@ -286,7 +286,7 @@ AmazonCloudWatchEventRole:
 
 2. CloudWatch Event Rule
 
-```json
+```yaml
 AmazonCloudWatchEventRole:
     Type: AWS::Events::Role
     Properties:
@@ -314,7 +314,7 @@ AmazonCloudWatchEventRole:
 
 3. CloudTrail trail, S3Bucket (to store CloudTrail event log files) and Bucket policy (Amazon S3 uses to log the events that occur)
 
-```json
+```yaml
 #CloudTrail Bucket Policy
   AWSCloudTrailBucketPolicy:
     Type: AWS::S3::BucketPolicy
