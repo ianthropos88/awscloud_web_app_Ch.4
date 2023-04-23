@@ -1,16 +1,16 @@
-# Improve the availability of Operational and Regulatory Information, which inspires high levels of scalability and performance with AWS Cloud. 📲 #
+# Improve the availability of Operational and Regulatory Information, which inspires high levels of scalability and performance with AWS Cloud. :computer: #
 
 The purpose of this project was to create a Web Application where all the concerned teams can find the right information related to their Operational and Regulatory Information.
 
-## > :rocket: **Thank you for your interest in my work.** :blush:
+## > :rocket: **Thank you for your interest in my work.** :blush: ##
 
 This solution aims at deploying a web application with a PostgreSQL database on AWS in 3 environments (Development, Staging, & Production).
 
 The project is supported by several managed services including AWS RDS, PostgreSQL,Amazon ElastiCache, Amazon Elasticsearch Service, Amazon Pinpoint and Amazon Personalize.
 
-# Web App Optimization 🚶‍♂️ #
+# Web App Optimization :hourglass_flowing_sand:♂️ #
 
-## ✔️ Problem Statement ##
+### ✔️ Problem Statement ###
 
 We faced 3 different issues, that might have highly similar root causes:
 
@@ -57,7 +57,7 @@ Create a highly scalable Web App with a distributed relational database, where a
 
 - Input collection accuracy and in-time records.
 
-# Key considerations when using AWS for web hosting #
+# Key considerations when using AWS for Web Hosting #
 
 There are some key differences between the AWS Cloud and a traditional web application hosting model. This section points out some of the key architectural shifts that you need to consider when you bring any application into the cloud.
 
@@ -97,7 +97,7 @@ When a new host is brought up, you shouldn’t make assumptions about the IP add
 </p>
 <p align="center"><b>Scenario 2:</b> The Project Plan - AWS Cloud.</p>
 
-### **Architecture Design - 3 Tier Single Region** ###
+### **Architecture Design - 3 Tier Single Region** :thought_balloon: ###
 
 The following figure provides a look at the classic web application architecture and how it can leverage the AWS Cloud computing infrastructure.
 
@@ -158,7 +158,7 @@ In the above architecture, the security group for the web server cluster might a
 
 **Caching within the web application** - In-memory application caches can reduce load on services and improve performance and scalability on the database tier by caching frequently used information. Amazon ElastiCache is a web service that makes it easy to deploy, operate, and scale an in-memory cache in the cloud. You can configure the in-memory cache you create to automatically scale with load and to automatically replace failed nodes. ElastiCache is protocol-compliant with Memcached and Redis, which simplifies migration from your current on-premises solution.
 
-### **Architecture Design - 3 Tier Multi Region** ###
+## **Architecture Design - 3 Tier Multi Region** :thought_balloon: ##
 
 #### **Considerations before getting started** ####
 
