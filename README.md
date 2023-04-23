@@ -223,6 +223,28 @@ While our primary objective is expanding to a global audience, we note that some
 </p>
 <p align="center"><b>Scenario 4:</b> The Architecture Design - 3 Tier Multi Region.</p>
 
+#### **Bespoke AWS Cross-Region CI/CD Pipeline (CloudFormation)** ####
+
+**PROBLEM**
+
+Cross-region deployment is natively supported by AWS CodePipeline. At the build stage, builds can be processed by already created CodeBuild projects in supported regions. Native Cross-region deployment with deploy stage providers like CloudFormation, CodeDeploy, and ECS is possible when operating within supported regions.
+
+However, some Regions do not have native support for cross-region deployment. Below explanation provides 2 ways to implement a bespoke AWS CI/CD pipeline in such regions. In regions where AWS natively supports cross-region or multi-region deployments, the default integrated solution should be used to achieve a cleaner solution.
+
+**SOLUTION**
+
+When there is no full support for builtin code connection in a region, a pipeline is set up in an AWS region which already supports this feature.
+
+This pipeline will get triggered with set actions (merge/push) on a specified branch, then pushes the source code to CodeBuild. CodeBuild zips the source code, copies it to an S3 bucket. With Cross-region replication set, the zipped source code is replicated to our desired region.
+
+The CodePipeline in the 1st region region as per the architecture above, has its source provider set to S3. The next problem arises, how can we trigger CodePipeline when there is a new object in the S3 bucket set as its source provider?
+
+This article approaches this problem using CloudWatch events to trigger CodePipeline. Of course, we’ll have to disable the PollForSourceChanges property, since we want to trigger the pipeline and not wait for it to poll for changes.
+
+For CodePipeline resoucrce created with AWS CloudFormation, theConfiguration property in the source stage called PollForSourceChanges should be set to false. If your template doesn't include that property, then PollForSourceChanges is set to true by default.
+
+The Amazon S3 source event-based change detection using Cloudwatch Events.
+
 ### **Deploy the Application and Database within 3 Environments (Development, Staging, Production)** ###
 
 This example will show how to deploy a containerized app (Strapi) with PostgreSQL on AWS in Development, Staging and Production and makes it accessible via HTTPS. All of that in just a few lines of Terraform file.
