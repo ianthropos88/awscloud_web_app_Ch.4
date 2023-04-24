@@ -1,6 +1,6 @@
 # **Deploy an application with a PostgreSQL Database on AWS within 3 Environments (Production, Staging, Development).** :computer: #
 
-In the DevOps world, we sometimes struggle with terminology.
+In the DevOps world, we sometimes struggle with terminology. **[Chapter 4]**
 
 **Note:** A stage is a stack that you deploy for a specific purpose.
 
