@@ -1,4 +1,4 @@
-# **Deploy the Application and Database within 3 Environments (Development, Staging, & Production)** :computer: #
+# **Deploy an application with a PostgreSQL Database on AWS within 3 Environments (Production, Staging, Development).** :computer: #
 
 In the DevOps world, we sometimes struggle with terminology.
 
