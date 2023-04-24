@@ -10,9 +10,9 @@ Stages can also be referred to as "environments" - for example, the dev environm
 
 ## > :rocket: **Thank you for your interest in my work.** :blush: ##
 
-This solution aims at deploying a web application with a PostgreSQL database on AWS in 3 environments (Development, Staging, & Production).
+Using this solution, you can easily set up and manage an entire CI/CD pipeline in AWS accounts using the native AWS suite of CI/CD services, where a commit or change to code passes through various automated stage gates all the way from building and testing to deploying applications, from development to production environments.
 
-The project is supported by several managed services including AWS RDS, PostgreSQL,Amazon ElastiCache, Amazon Elasticsearch Service, Amazon Pinpoint and Amazon Personalize.
+The project is supported by several managed services including **Amazon Route 53**, **Amazon CloudFront**, **AWS WAF**, **Elastic Load Balancing (ELB)**, **AWS Shield**, **Amazon ElastiCache**, **Amazon RDS**, **Amazon S3**, etc.
 
 ## **Full Production, Staging and Dev environments on AWS with Kubernetes and RDS** :pager: ##
 
