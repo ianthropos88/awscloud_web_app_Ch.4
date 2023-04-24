@@ -213,3 +213,40 @@ resource "droplets_application" "production_strapi_app" {
 9. Exposes publicly via HTTPS your Strapi app from `Production`, `Staging` and `Dev` through different endpoints
 
 It will take approximately **20 minutes to create your infrastructure** and **less than 10 minutes to deploy your application** for each environment. 
+
+### **AWS services** ###
+
+**This solution uses the following AWS services:**
+
+1. **AWS CodeCommit** – A fully-managed source control service that hosts secure Git-based repositories. CodeCommit makes it easy for teams to collaborate on code in a secure and highly scalable ecosystem. This solution uses CodeCommit to create a repository to store the application and deployment codes.
+2. **AWS CodeBuild** – A fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy, on a dynamically created build server. This solution uses CodeBuild to build and test the code, which we deploy later.
+3. **AWS CodeDeploy** – A fully managed deployment service that automates software deployments to a variety of compute services such as Amazon EC2, AWS Fargate, AWS Lambda, and your on-premises servers. This solution uses CodeDeploy to deploy the code or application onto a set of EC2 instances running CodeDeploy agents.
+4. **AWS CodePipeline** – A fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates. This solution uses CodePipeline to create an end-to-end pipeline that fetches the application code from CodeCommit, builds and tests using CodeBuild, and finally deploys using CodeDeploy.
+5. **AWS CloudWatch Events** – An AWS CloudWatch Events rule is created to trigger the CodePipeline on a Git commit to the CodeCommit repository.
+Amazon Simple Storage Service (Amazon S3) – An object storage service that offers industry-leading scalability, data availability, security, and performance. This solution uses an S3 bucket to store the build and deployment artifacts created during the pipeline run.
+6. **AWS Key Management Service (AWS KMS)** – AWS KMS makes it easy for you to create and manage cryptographic keys and control their use across a wide range of AWS services and in your applications. This solution uses AWS KMS to make sure that the build and deployment artifacts stored on the S3 bucket are encrypted at rest.
+
+### **Overview of solution** ###
+
+This solution uses three separate AWS accounts: a development account (1111), a stage account, and a production account (2222) in Region eu-central-1.
+
+We use the development account to deploy and set up the CI/CD pipeline, along with the source code repository. It also builds and tests the code locally and performs a test deploy.
+
+The production account is any other account where the application is required to be deployed from the pipeline in the dev account.
+
+**In summary, the solution has the following workflow:**
+
+A change or commit to the code in the CodeCommit application repository triggers CodePipeline with the help of a CloudWatch event.
+
+The pipeline downloads the code from the CodeCommit repository, initiates the Build and Test action using CodeBuild, and securely saves the built artifact in the S3 bucket.
+
+If the preceding step is successful, the pipeline triggers the Deploy in Development action using CodeDeploy and deploys the app in development account.
+
+If successful, the pipeline triggers the Deploy in Staging action using CodeDeploy and deploys the app in the Staging account. Also, once successful, the pipeline triggers the Deploy in Production action using CodeDeploy and deploys the app in the Production account.
+
+The following diagram illustrates the workflow:
+
+<p align="center">
+  <img align="center" src="image/static/Cloud_Architecture_3_Stages.png" width=100%>
+</p>
+<p align="center"><b>Scenario:</b> The Architecture Design - 3 Tier Multi Region with 3 Environments (Development, Stage and Production).</p>
