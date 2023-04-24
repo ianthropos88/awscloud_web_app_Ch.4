@@ -2,7 +2,7 @@
 
 In the DevOps world, we sometimes struggle with terminology.
 
-Note: A stage is a stack that you deploy for a specific purpose.
+**Note:** A stage is a stack that you deploy for a specific purpose.
 
 Stages are used in code pipelines to provide an on-ramp to push code changes from smaller to wider audiences. For example, a change will typically start with a dev stage (either a team or a personal dev stack). If the change works on the dev stage, a team may next push it to a test stage where internal stakeholders can access it, followed by a staging stage where it's available to a limited number of external customers. Finally, if the change passes all automated and manual tests, it'll be pushed to the production stage.
 
