@@ -1,4 +1,4 @@
-# **Deploy the Application and Database within 3 Environments (Development, Staging, & Production)** :computer: #
+# **Deploy the Application and Database within 3 Environments (Development, Stage, & Production)** :computer: #
 
 In the DevOps world, we sometimes struggle with terminology.
 
@@ -188,31 +188,31 @@ resource "droplets_application" "production_strapi_app" {
 }
 ```
 
-**Behind the Scene:**
+### **Behind the Scene** ###
 
-1. Creates 3 Kubernetes clusters (`Dev`, `Staging`, `Production`) on your AWS account (VPC, Security Groups, Subnet, EKS/Kubernetes...)
+1. Creates 3 Kubernetes clusters (`Dev`, `Staging`, `Production`) on the AWS account (VPC, Security Groups, Subnet, EKS/Kubernetes...).
 2. Creates resources:
-   1. Organization `Terraform Demo`
-   2. Project `Strapi V4`
-   3. Environment `production`
-   4. Database `strapi db` (RDS) for `Production`
-   5. Application `strapi app` for `Production`
-   6. Environment `staging`
-   7. Database `strapi db` (RDS) for `Staging`
-   8. Application `strapi app` for `Staging`
-   9. Environment `dev`
-   10. Database `strapi db` (Container with EBS) for `Dev`
-   11. Application `strapi app` for `Dev`
-   12. Inject all the Secrets and Environment Variables used by the app for every environment
-3. Build `strapi app` application for `Production`, `Staging` and `Dev` environments in parallel
-4. Pushes `strapi app` container image in your ECR registry  for `Production`, `Staging` and `Dev` environments in parallel
-5. Deploys your PostgreSQL database for `Production` (AWS RDS), `Staging` (AWS RDS) and `Dev` (Container) environments in parallel
-6. Deploys `strapi app` on your `Production`, `Staging` and `Dev` EKS clusters
-7. Creates an AWS Network Load Balancer for all your clusters and apps
-8. Generates a TLS certificate for your app for all your apps
-9. Exposes publicly via HTTPS your Strapi app from `Production`, `Staging` and `Dev` through different endpoints
+   - Organization `Terraform Demo`
+   - Project `Strapi V4`
+   - Environment `production`
+   - Database `strapi db` (RDS) for `Production`
+   - Application `strapi app` for `Production`
+   - Environment `staging`
+   - Database `strapi db` (RDS) for `Staging`
+   - Application `strapi app` for `Staging`
+   - Environment `dev`
+   - Database `strapi db` (Container with EBS) for `Dev`
+   - Application `strapi app` for `Dev`
+   - Inject all the Secrets and Environment Variables used by the app for every environment
+3. Builds `strapi app` application for `Production`, `Staging` and `Dev` environments in parallel.
+4. Pushes `strapi app` container image in the ECR registry  for `Production`, `Staging` and `Dev` environments in parallel.
+5. Deploys your PostgreSQL database for `Production` (AWS RDS), `Staging` (AWS RDS) and `Dev` (Container) environments in parallel.
+6. Deploys `strapi app` on your `Production`, `Staging` and `Dev` EKS clusters.
+7. Creates an AWS Network Load Balancer for all your clusters and apps.
+8. Generates a TLS certificate for your app for all your apps.
+9. Exposes publicly via HTTPS your Strapi app from `Production`, `Staging` and `Dev` through different endpoints.
 
-It will take approximately **20 minutes to create your infrastructure** and **less than 10 minutes to deploy your application** for each environment. 
+It takes approximately **20 minutes to create the infrastructure** and **less than 10 minutes to deploy the application** for each environment. 
 
 ### **AWS services** ###
 
@@ -236,17 +236,17 @@ The production account is any other account where the application is required to
 
 **In summary, the solution has the following workflow:**
 
-A change or commit to the code in the CodeCommit application repository triggers CodePipeline with the help of a CloudWatch event.
+1. A change or commit to the code in the CodeCommit application repository triggers CodePipeline with the help of a CloudWatch event.
 
-The pipeline downloads the code from the CodeCommit repository, initiates the Build and Test action using CodeBuild, and securely saves the built artifact in the S3 bucket.
+2. The pipeline downloads the code from the CodeCommit repository, initiates the Build and Test action using CodeBuild, and securely saves the built artifact in the S3 bucket.
 
-If the preceding step is successful, the pipeline triggers the Deploy in Development action using CodeDeploy and deploys the app in development account.
+3. If the preceding step is successful, the pipeline triggers the Deploy in Development action using CodeDeploy and deploys the app in development account.
 
-If successful, the pipeline triggers the Deploy in Staging action using CodeDeploy and deploys the app in the Staging account. Also, once successful, the pipeline triggers the Deploy in Production action using CodeDeploy and deploys the app in the Production account.
+4. If successful, the pipeline triggers the Deploy in Staging action using CodeDeploy and deploys the app in the Staging account. Also, once successful, the pipeline triggers the Deploy in Production action using CodeDeploy and deploys the app in the Production account.
 
 The following diagram illustrates the workflow:
 
 <p align="center">
   <img align="center" src="image/static/Cloud_Architecture_3_Stages.png" width=100%>
 </p>
-<p align="center"><b>Scenario:</b> The Architecture Design - 3 Tier Multi Region with 3 Environments (Development, Stage and Production).</p>
+<p align="center"><b>Scenario:</b> The Architecture Design - 3 Tier within 3 Environments (Development, Stage and Production).</p>
