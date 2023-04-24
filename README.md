@@ -250,3 +250,106 @@ The following diagram illustrates the workflow:
   <img align="center" src="image/static/Cloud_Architecture_3_Stages.png" width=100%>
 </p>
 <p align="center"><b>Scenario:</b> The Architecture Design - 3 Tier within 3 Environments (Development, Stage and Production).</p>
+
+**Failsafe deployments**
+
+This example of CodeDeploy uses the IN_PLACE type of deployment. However, to minimize the downtime, CodeDeploy inherently supports multiple deployment strategies. This example makes use of following features: rolling deployments and automatic rollback.
+
+CodeDeploy provides the following three predefined deployment configurations, to minimize the impact during application upgrades:
+
+1. **CodeDeployDefault.OneAtATime** – Deploys the application revision to only one instance at a time.
+2. **CodeDeployDefault.HalfAtATime** – Deploys to up to half of the instances at a time (with fractions rounded down).
+3. **CodeDeployDefault.AllAtOnce** – Attempts to deploy an application revision to as many instances as possible at once.
+
+For OneAtATime and HalfAtATime, CodeDeploy monitors and evaluates instance health during the deployment and only proceeds to the next instance or next half if the previous deployment is healthy. For more information, see Working with deployment configurations in CodeDeploy.
+
+You can also configure a deployment group or deployment to automatically roll back when a deployment fails or when a monitoring threshold you specify is met. In this case, the last known good version of an application revision is automatically redeployed after a failure with the new application version.
+
+**How CodePipeline in the dev account deploys apps in the prod account?**
+
+In this post, the deployment pipeline using CodePipeline is set up in the dev account, but it has permissions to deploy the application in the staging and prod account. We create a special cross-account role in the prod account, which has the following:
+
+1. Permission to use fetch artifacts (app) rom Amazon S3 and deploy it locally in the account using CodeDeploy.
+2. Trust with the dev account where the pipeline runs.
+
+CodePipeline in the dev account assumes this cross-account role in the prod account to deploy the app.
+
+**Setting up the prod account**
+
+To set up the prod account, complete the following steps:
+
+1. Download and launch the AWS CloudFormation template from the GitHub repo: cicd-codedeploy-prod.json
+    - This deploys the CodeDeploy app and deployment group.
+    - Make sure that you already have a set of EC2 Linux instances with the CodeDeploy agent installed in all the accounts where the sample Java application is to be installed (dev and prod accounts). If not, refer back to the Prerequisites section.
+2. Update the existing EC2 IAM instance profile (cicd_ec2_instance_profile):
+    - Replace the S3 bucket name mywebapp-codepipeline-bucket-eu-central-1-1111 with your S3 bucket name (the one used for the CodePipelineArtifactS3Bucket variable when you launched the CloudFormation template in the dev account).
+    - Replace the KMS key ARN arn:aws:kms:eu-central-1:1111:key/82215457-e360-47fc-87dc-a04681c91ce1 with your KMS key ARN (the one created as part of the CloudFormation template launch in the dev account).
+    
+**Setting up the dev account**
+
+To set up your dev account, complete the following steps:
+
+1. Download and launch the CloudFormation template from the GitHub repo: cicd-aws-code-suite-dev.json
+The stack deploys the following services in the dev account:
+    - CodeCommit repository
+    - CodePipeline
+    - CodeBuild environment
+    - CodeDeploy app and deployment group
+    - CloudWatch event rule
+    - KMS key (used to encrypt the S3 bucket)
+    - S3 bucket and bucket policy
+2. You should have created all the existing resources and roles beforehand as part of the prerequisites.
+- It should take 5–10 minutes for the CloudFormation stack to complete. When the stack is complete, you can see that CodePipeline has built the pipeline (MyWebAppPipeline) with the CodeCommit repository and CodeBuild environment, along with actions for CodeDeploy in local (dev) and cross-accounts (staging & prod). CodePipeline should be in a failed state because your CodeCommit repository is empty initially.
+3. Update the existing Amazon EC2 IAM instance profile (cicd_ec2_instance_profile):
+    - Replace the S3 bucket name mywebapp-codepipeline-bucket-eu-central-1-1111 with your S3 bucket name (the one used for the CodePipelineArtifactS3Bucket parameter when launching the CloudFormation template in the dev account).
+    - Replace the KMS key ARN arn:aws:kms:eu-central-1:1111:key/82215457-e360-47fc-87dc-a04681c91ce1 with your KMS key ARN (the one created as part of the CloudFormation template launch in the dev account).
+    
+**Deploying the application**
+
+You’re now ready to deploy the application via your desktop or PC.
+
+1. Assuming you have the required HTTPS Git credentials for CodeCommit as part of the prerequisites, clone the CodeCommit repo that you created earlier as part of the dev account setup. Obtain the name of the CodeCommit repo to clone, from the CodeCommit console. Enter the Git user name and password when prompted. For example:
+
+```git
+$ git clone https://git-codecommit.eu-central-1.amazonaws.com/v1/repos/MyWebAppRepo my-web-app-repo
+Cloning into 'my-web-app-repo'...
+Username for 'https://git-codecommit.eu-central-1.amazonaws.com/v1/repos/MyWebAppRepo': xxxx
+Password for 'https://xxxx@git-codecommit.eu-central-1.amazonaws.com/v1/repos/MyWebAppRepo': xxxx
+```
+2. Download the MyWebAppRepo.zip file containing a sample Java application, CodeBuild configuration to build the app, and CodeDeploy config file to deploy the app.
+3. Copy and unzip the file into the my-web-app-repo Git repository folder created earlier.
+4. Assuming this is the sample app to be deployed, commit these changes to the Git repo. For example:
+
+```git
+$ cd my-web-app-repo 
+$ git add -A 
+$ git commit -m "initial commit" 
+$ git push
+```
+After you commit the code, the CodePipeline will be triggered and all the stages and your application should be built, tested, and deployed all the way to the production environment!
+
+**Cleaning up**
+
+To avoid incurring future charges or to remove any unwanted resources, delete the following:
+
+- EC2 instance used to deploy the application
+- CloudFormation template to remove all AWS resources created through this post
+- IAM users or roles
+
+**FAQs**
+
+In this section, I answered some frequently asked questions:
+
+1. Can I expand this deployment to more than two accounts?
+- Yes. You can deploy a pipeline in a tooling account and use dev, non-prod, and prod accounts to deploy code on EC2 instances via CodeDeploy. Changes are required to the templates and policies accordingly.
+2. Can I ensure the application isn’t automatically deployed in the prod account via CodePipeline and needs manual approval?
+- Yes. Minor changes are required to the CodePipeline section of the CloudFormation template for the dev environment to add an Approval stage and action.
+3. Can I use a CodeDeploy group with an Auto Scaling group?
+- Yes. Minor changes required to the CodeDeploy group creation process.
+4. Can I use this pattern for EC2 Windows instances?
+- Not as is. You need to make a few changes to the CloudFormation template for the dev environment for a CodeBuild project. For more information about setting up a CodeBuild environment, see Microsoft Windows samples for CodeBuild.
+
+# About Me :sunglasses: #
+- With 10+ years of industry experience, I have thrived in Data Science, Data Governance, IT, Cloud and Product Management. I have a keen interest and expertise in solving business problems using unique logic and analytics. I bring solutions to the table based on competitive Business Acumen and Human Intelligence.
+- Have a look at my portfolio: [Helping organization level all their Seeds Business arguments using Data & Technology | Ex_Zalando | Ex_Freecharge | Ex_Myntra Jabong | Ex_Supercell | Ex_Infosys](https://www.linkedin.com/in/pnchoudhury/)
+- I love talking about #cloudarchitecture, #businessanalytics, #datapipelines, #machinelearning, and #artificialintelligence
