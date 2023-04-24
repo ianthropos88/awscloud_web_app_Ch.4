@@ -1,4 +1,4 @@
-# **Deploy the Application and Database within 3 Environments (Development, Stage, & Production)** :computer: #
+# **Deploy the Application and Database within 3 Environments (Development, Staging, & Production)** :computer: #
 
 In the DevOps world, we sometimes struggle with terminology.
 
@@ -32,7 +32,7 @@ resource "droplets_cluster" "production_cluster" {
   name              = "Production cluster"
   description       = "Terraform prod demo cluster"
   cloud_provider    = "AWS"
-  region            = "us-east-2"
+  region            = "eu-central-1"
   instance_type     = "T3A_MEDIUM"
   min_running_nodes = 3
   max_running_nodes = 4
@@ -49,7 +49,7 @@ resource "droplets_cluster" "staging_cluster" {
   name              = "Staging cluster"
   description       = "Terraform staging demo cluster"
   cloud_provider    = "AWS"
-  region            = "us-east-2"
+  region            = "eu-central-1"
   instance_type     = "T3A_MEDIUM"
   min_running_nodes = 3
   max_running_nodes = 4
